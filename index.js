@@ -27,6 +27,7 @@ async function run() {
     await client.connect();
     const database = client.db('travelDB');
     const destinationCollection = database.collection('destination');
+    const tourCollection = database.collection('tours');
     // add destination
     app.post('/addDestinantion', async (req, res) => {
       const result = await destinationCollection.insertOne(req.body);
@@ -42,6 +43,12 @@ async function run() {
       const result = await destinationCollection.findOne({
         _id: ObjectId(req.params.id),
       });
+      res.send(result);
+    });
+
+    // addTour
+    app.post('/addTour', async (req, res) => {
+      const result = await tourCollection.insertOne(req.body);
       res.send(result);
     });
   } finally {
