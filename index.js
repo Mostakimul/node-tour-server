@@ -25,8 +25,13 @@ async function run() {
   try {
     await client.connect();
     const database = client.db('travelDB');
-    const serviceCollection = database.collection('services');
-    console.log('Database Connected!!!');
+    const destinationCollection = database.collection('destination');
+    // add destination
+    app.post('/addDestinantion', async (req, res) => {
+      // console.log(req.body);
+      const result = await destinationCollection.insertOne(req.body);
+      res.send(result);
+    });
   } finally {
     // await client.close();
   }
