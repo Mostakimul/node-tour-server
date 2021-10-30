@@ -4,6 +4,7 @@ const { MongoClient } = require('mongodb');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const port = process.env.PORT || 5000;
+const ObjectId = require('mongodb').ObjectId;
 
 // Middleware
 app.use(cors());
@@ -28,8 +29,19 @@ async function run() {
     const destinationCollection = database.collection('destination');
     // add destination
     app.post('/addDestinantion', async (req, res) => {
-      // console.log(req.body);
       const result = await destinationCollection.insertOne(req.body);
+      res.send(result);
+    });
+    // get all destinantions
+    app.get('/allDestinantion', async (req, res) => {
+      const result = await destinationCollection.find({}).toArray();
+      res.send(result);
+    });
+    // get single destinantion
+    app.get('/destinantionDetails/:id', async (req, res) => {
+      const result = await destinationCollection.findOne({
+        _id: ObjectId(req.params.id),
+      });
       res.send(result);
     });
   } finally {
