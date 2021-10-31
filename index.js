@@ -51,6 +51,18 @@ async function run() {
       const result = await tourCollection.insertOne(req.body);
       res.send(result);
     });
+    // allTours
+    app.get('/allTours', async (req, res) => {
+      const result = await tourCollection.find({}).toArray();
+      res.send(result);
+    });
+    // single tourDeatils
+    app.get('/tourDeatils/:id', async (req, res) => {
+      const result = await tourCollection.findOne({
+        _id: ObjectId(req.params.id),
+      });
+      res.send(result);
+    });
   } finally {
     // await client.close();
   }
