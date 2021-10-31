@@ -70,6 +70,16 @@ async function run() {
       const result = await bookingCollection.insertOne(req.body);
       res.send(result);
     });
+
+    // get specific user booking
+    app.get('/myBookings/:email', async (req, res) => {
+      const result = await bookingCollection
+        .find({
+          email: req.params.email,
+        })
+        .toArray();
+      res.send(result);
+    });
   } finally {
     // await client.close();
   }
