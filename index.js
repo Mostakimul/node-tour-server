@@ -91,7 +91,6 @@ async function run() {
     app.put('/changeStatus/:id', async (req, res) => {
       const id = req.params.id;
       const updatedUser = req.body;
-      console.log(id, updatedUser);
       const filter = { _id: ObjectId(id) };
       const options = { upsert: true };
       const updateDoc = {
