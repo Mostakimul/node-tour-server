@@ -80,6 +80,39 @@ async function run() {
         .toArray();
       res.send(result);
     });
+
+    // get all bookings
+    app.get('/allBookings', async (req, res) => {
+      const result = await bookingCollection.find({}).toArray();
+      res.send(result);
+    });
+
+    // change pending status
+    app.put('/changeStatus/:id', async (req, res) => {
+      const id = req.params.id;
+      const updatedUser = req.body;
+      console.log(id, updatedUser);
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          status: updatedUser.status,
+        },
+      };
+      const result = await bookingCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
+    // Delete a booking
+    app.delete('/deleteBooking/:id', async (req, res) => {
+      const id = req.params.id;
+      const result = await bookingCollection.deleteOne({ _id: ObjectId(id) });
+      res.send(result);
+    });
   } finally {
     // await client.close();
   }
